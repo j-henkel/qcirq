@@ -5,9 +5,22 @@ class QRegister:
     #TODO docs
     
     def __init__(self, state: np.ndarray):
+        """
+        Parameters
+        ----------
+        state: np.ndarray
+            An array containing the measurement probabilities of the base
+            states
+        """
+        
         max_qbits = 10
-        state = state
-        #TODO make sure state is of dim 2**n, n<10
+        qbits = np.log2(len(state))
+        assert qbits == int(qbits), "len(state) should be 2**N"
+        assert 0 < qbits <= max_qbits, "too many qbits"
+
+        self.qbits = qbits
+        self.state = state
+
         return
 
     def inspect_entanglement(self):
