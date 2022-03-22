@@ -19,4 +19,11 @@ class TestQRegister:
                 x = QRegister(state)
             except AssertionError:
                 assert False
+        with pytest.raises(AssertionError):
+            x = QRegister(np.array([2, 1]))
+        try: 
+            s = 1/np.sqrt(2)
+            x = QRegister(np.array([s, s]))
+        except AssertionError:
+            assert False
 

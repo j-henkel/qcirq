@@ -12,9 +12,13 @@ class QRegister:
             An array containing the measurement probabilities of the base
             states
         """
-        
+
         max_qbits = 10
         qbits = np.log2(len(state))
+        norm = np.linalg.norm(state, 2)
+        max_norm_deviation = 1e-9
+        assert 1.0 - max_norm_deviation <= norm <= 1.0 + max_norm_deviation, \
+                                                            "not normalized"
         assert qbits == int(qbits), "len(state) should be 2**N"
         assert 0 < qbits <= max_qbits, "too many qbits"
 
