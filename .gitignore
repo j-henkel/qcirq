@@ -1,0 +1,14 @@
+# PyCharm
+.idea
+# Pycache
+__pycache__
+# Jupyter
+.ipynb_checkpoints
+# VS Code
+.vscode
+# pytest
+.pytest_cache
+
+test/__pycache__
+scratch.ipynb
+requirements.txt
