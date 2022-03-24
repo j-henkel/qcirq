@@ -14,7 +14,7 @@ class QRegister:
         """
 
         max_qbits = 10
-        qbits = int(np.log2(len(state)))
+        qbits = np.log2(len(state))
         norm = np.linalg.norm(state, 2)
         max_norm_deviation = 1e-9
         assert 1.0 - max_norm_deviation <= norm <= 1.0 + max_norm_deviation, \
@@ -22,15 +22,16 @@ class QRegister:
         assert qbits == int(qbits), "len(state) should be 2**N"
         assert 0 < qbits <= max_qbits, "too many qbits"
 
-        self.qbits = qbits
+        self.qbits = int(qbits)
         self.state = state
-
-        return
 
     def inspect_entanglement(self):
         """check wether the register is entangled"""
         separable = np.zeros(self.qbits-1)
         register = self.state.copy()
+
+        if self.qbits == 1:
+            return False
 
         for i in range(1, self.qbits):
             m = register.reshape(2**i, int(len(register)/(2**i)))

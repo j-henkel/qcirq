@@ -1,7 +1,7 @@
 import numpy as np
 from ..qregister import QRegister
 import pytest
-
+import random
 
 class TestQRegister:
 
@@ -28,7 +28,9 @@ class TestQRegister:
             assert False
 
     def test_entanglement(self):
-        #TODO edge cases like one single qbit
+        qreg = QRegister(np.array([0, 1]))
+        result = qreg.inspect_entanglement()
+        assert result == False
         isqr2 = 1/np.sqrt(2)
         entangled2 = np.array([isqr2, 0, 0, isqr2])
         unentangled = np.array([isqr2, isqr2])
@@ -49,3 +51,18 @@ class TestQRegister:
         qreg = QRegister(x)
         result = qreg.inspect_entanglement()
         assert (result == np.array([False, True, True, False])).all()
+
+    def test_separate(self):
+        a = random.random()
+        qbita = np.array([a, np.sqrt(1-a**2)])
+        b = random.random()
+        qbitb = np.array([b, np.sqrt(1-b**2)])
+        qreg = QRegister(np.kron(qbita, qbitb))
+        expect = (QRegister(qbita), QRegister(qbitb))
+        result = qreg.separate()
+        compare = []
+        for i in range(len(expect)):
+            compare.append(expect[i].state == result[i].state).all()
+        compare = np.array(compare)
+        assert compare.all()
+        
