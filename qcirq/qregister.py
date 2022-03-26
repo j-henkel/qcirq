@@ -26,7 +26,18 @@ class QRegister:
         self.state = state
 
     def inspect_entanglement(self):
-        """check wether the register is entangled"""
+        """
+        Inspects in beween which bits the register is separable.
+        
+        Returns
+        -------
+        separable: np.ndarray(bool)
+            if separable[i] is True, then the register is separable in between
+            qbit i and i+1
+            if separable[i] is False, then the register containing qbits 
+            0 to i and the register containing qbits i+1 to n are entangled
+        """
+        #TODO docs
         separable = np.zeros(self.qbits-1)
         register = self.state.copy()
 
@@ -38,8 +49,6 @@ class QRegister:
             rank = np.linalg.matrix_rank(m)
             separable[i-1] = not (rank > 1)
 
-        # might struggle with rounding of last digit of float numbers 
-        # for example 0.99999999999999 instead of 1.0
         return separable
 
     def separate(self):

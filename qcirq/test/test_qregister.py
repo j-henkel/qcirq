@@ -32,8 +32,9 @@ class TestQRegister:
         result = qreg.inspect_entanglement()
         assert result == False
         isqr2 = 1/np.sqrt(2)
+        a = random.random()
         entangled2 = np.array([isqr2, 0, 0, isqr2])
-        unentangled = np.array([isqr2, isqr2])
+        unentangled = np.array([a, np.sqrt(1-a**2)])
         qreg = QRegister(entangled2)
         result = qreg.inspect_entanglement()
         assert (result == np.array([False])).all()
